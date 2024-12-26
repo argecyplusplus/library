@@ -10,8 +10,9 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public String login(@RequestParam String login, @RequestParam String password, Model model) {
+        System.out.println("Я тут");
         try {
             Object user = userService.authenticate(login, password);
 
@@ -21,6 +22,9 @@ public class AuthController {
             } else if (user instanceof Staff) {
                 model.addAttribute("user", user);
                 return "redirect:/profile"; // Профиль библиотекаря
+            }
+            else {
+                System.out.println(user);
             }
         } catch (RuntimeException e) {
             model.addAttribute("error", "Invalid login or password");
